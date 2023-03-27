@@ -1,0 +1,254 @@
+@import 'fonts.scss';
+
+
+* {
+    box-sizing: border-box;
+    font-family: 'NotoSans-Light';
+}
+
+body {
+    background: #1a1e23;
+    margin: 0;
+    
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.calc_wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 15%;
+    margin: 0px auto;
+    top: 40px;
+    background-color: #353739;
+    border-radius: 15px;
+    z-index: 5;
+    input {
+        color: #46494c;
+        margin: 20px 15px 5px 15px;
+        border-radius: 5px;
+        border: none;
+        background-color: #1a1e23;
+    }
+    &__buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        
+        button {
+            margin: 10px auto 20px auto;
+            width: 70%;
+            border-radius: 5px;
+            border: none;
+            background-color: #1a1e23;
+            color: #46494c;
+            &:hover {
+                background: hsla(183, 94%, 76%, 0.3);
+                color: #1a1e23;
+            }
+            &:active {
+              color: aliceblue;
+              background: #46494c;
+            }
+        }
+    }
+}
+
+
+.overlay_transition{
+  .total {
+    transition: visibility 1s linear, left 2s linear, opacity 1s,;  
+    background: rgba($color: #000000, $alpha: 0.7);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 15;
+    visibility: hidden;
+    opacity: 1; 
+    &__wrap {
+      position: absolute;
+      margin-top: 20%;
+      left: -50%;
+      transform: translate(-50%);
+      width: 300px;
+      height: 200px;
+      background-color: #353739;
+      border-radius: 15px;
+      &__img {
+        position: absolute;
+        right: 5%;
+        top: 5%;
+        &:hover {
+          animation-name: rotateCross;
+          animation-duration: 500ms;
+          fill:red;
+          cursor: pointer;
+        }
+      }
+      & p {
+        font-size: 50px;
+        font-family: 'NotoSans-Medium';
+        text-align: center;
+        margin-top: 70px;
+      }
+    }
+  }
+}
+
+.form {
+  &__sect {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    width: 300px;
+    margin-top: 20%;
+    left: -50%;
+    transform: translate(-50%);
+    border-radius: 15px;
+    background: #353739;;
+    opacity: 1;
+    z-index: 20;
+    line-height: 15px;
+    & figure {
+      position: absolute;
+      right: 7px;
+      top: 7px;
+      &:hover {
+        animation-name: rotateCross;
+        animation-duration: 500ms;
+        fill:red;
+        cursor: pointer;
+      }
+    }
+    &__wrap {
+      display: flex;
+      flex-direction: column;
+      margin-top: 25px;
+      & #nameForm, & #phone{
+        margin: 0 auto;
+        margin-top: 15px;
+        border-radius: 5px;
+        background-color: #1a1e23;;
+        border: none;
+        width: 85%;
+        height: 25px;
+        color: #46494c;;
+      }  
+      & #submit {
+        width: 33%;
+        margin: 0 auto;
+        margin-top: 15px;
+        margin-bottom: 20px;
+        color: #46494c;
+        background-color: #1a1e23;
+        border: none;
+        border-radius: 5px;
+        &:hover {
+          background: hsla(183, 94%, 76%, 0.3);
+          color: #1a1e23;
+        }
+        &:active {
+          color: aliceblue;
+          background: #46494c;
+        }
+      }
+    }
+  }
+  
+}
+
+
+@keyframes rotateCross {
+  from {
+    transform: rotate(0deg);
+  }  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Buble Background
+
+  $bubble-count: 70;
+  $sway-type: "sway-left-to-right", "sway-right-to-left";
+  
+  @function random_range($min, $max) {
+    $rand: random();
+    $random_range: $min + floor($rand * (($max - $min) + 1));
+    @return $random_range;
+  }
+  
+  @function sample($list) {
+    @return nth($list, random(length($list)));
+  }
+  
+  .bubbles {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+  }
+  
+  .bubble {
+    position: absolute;
+    left: var(--bubble-left-offset);
+    bottom: -25%;
+    display: block;
+    width: var(--bubble-radius);
+    height: var(--bubble-radius);
+    border-radius: 50%;
+    animation: float-up var(--bubble-float-duration) var(--bubble-float-delay) ease-in infinite;
+  
+    &::before {
+      position: absolute;
+      content: '';
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: hsla(183, 94%, 76%, 0.3);
+      border-radius: inherit;
+      animation: var(--bubble-sway-type) var(--bubble-sway-duration) var(--bubble-sway-delay) ease-in-out alternate infinite;
+    }
+  
+    @for $i from 0 through $bubble-count {
+      &:nth-child(#{$i}) {
+        --bubble-left-offset: #{random_range(0vw, 100vw)};
+        --bubble-radius: #{random_range(1vw, 10vw)};
+        --bubble-float-duration: #{random_range(6s, 12s)};
+        --bubble-sway-duration: #{random_range(4s, 6s)};
+        --bubble-float-delay: #{random_range(0s, 4s)};
+        --bubble-sway-delay: #{random_range(0s, 4s)};
+        --bubble-sway-type: #{sample($sway-type)};
+      }
+    }
+  }
+  
+  @keyframes float-up {
+    to {
+      transform: translateY(-175vh);
+    }
+  }
+  
+  @keyframes sway-left-to-right {
+    from {
+      transform: translateX(-100%);
+    }
+  
+    to {
+      transform: translateX(100%);
+    }
+  }
+  
+  @keyframes sway-right-to-left {
+    from {
+      transform: translateX(100%);
+    }
+  
+    to {
+      transform: translateX(-100%);
+    }
+  }
